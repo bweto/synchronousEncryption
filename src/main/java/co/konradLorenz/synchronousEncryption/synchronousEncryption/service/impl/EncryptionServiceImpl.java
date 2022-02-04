@@ -10,8 +10,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,12 +20,10 @@ import java.util.stream.Stream;
 public class EncryptionServiceImpl implements IEncryptionService {
 
     private final Cipher rsa;
-    private final KeyPair keys;
     private static final int SIZE_WORD_ENCRYPTED = 250;
 
     @Override
-    public String encryption(String text) throws InvalidKeyException{
-        rsa.init(Cipher.ENCRYPT_MODE, keys.getPublic());
+    public String encryption(String text) {
         return splitText(text)
                 .map(this::encryptPart)
                 .collect(Collectors.joining());

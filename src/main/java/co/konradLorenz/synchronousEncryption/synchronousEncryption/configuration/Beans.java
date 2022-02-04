@@ -8,6 +8,7 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
@@ -19,12 +20,14 @@ import java.security.spec.X509EncodedKeySpec;
 public class Beans {
 
     @Bean
-    public Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
-        return Cipher.getInstance("RSA/ECB/PKCS1Padding");
+    public Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, InvalidKeySpecException, InvalidKeyException {
+        var keys = getKeyPair();
+        var rsa = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+         rsa.init(Cipher.ENCRYPT_MODE, keys.getPublic());
+        return rsa;
     }
 
-    @Bean
-    public KeyPair getKeyPair() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    private KeyPair getKeyPair() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         var publicKeyData = new FileInputStream(ResourceUtils.getFile("classpath:pubkey.der")).readAllBytes();
         var privateKeyData = new FileInputStream(ResourceUtils.getFile("classpath:pkcs8_prikey.der")).readAllBytes();
 
