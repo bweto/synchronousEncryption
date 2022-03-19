@@ -1,7 +1,6 @@
 package co.konradLorenz.synchronousEncryption.synchronousEncryption.controller;
 
 import co.konradLorenz.synchronousEncryption.synchronousEncryption.model.Text;
-import co.konradLorenz.synchronousEncryption.synchronousEncryption.service.IEncryptionService;
 import co.konradLorenz.synchronousEncryption.synchronousEncryption.service.impl.EncryptionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
